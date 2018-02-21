@@ -7,48 +7,75 @@ using Nancy.ModelBinding;
 using Nancy.Responses;
 using Newtonsoft.Json;
 using Tasty.Models;
+using Tasty.Utils;
 using static Tasty.Utils.Enum;
 
 namespace Tasty
 {
     public class HomeModule: NancyModule
     {
+        dynamic CreateResponse<T>(T result) => new JsonResponse(result, new DefaultJsonSerializer());
+
         public HomeModule()
         {
+            // Receipt Route
             Get["/dummy/receipts"] = p => 
             { 
                 Repository.AddDummyReceipts();
-                var result = Repository.GetAllReceipts();
-                return new JsonResponse(result, new DefaultJsonSerializer());
+                return CreateResponse(Repository.GetAllReceipts());
             };
-            Get["/receipts"] = p => new JsonResponse(Repository.ListOfReceipts, new DefaultJsonSerializer());
-            Get["/receipts/{id}"] = p => Response.AsJson(Repository.ListOfReceipts.FirstOrDefault(r => r.Id == p.id));
+
+            Get["/receipts"] = p => CreateResponse(Repository.ListOfReceipts);
+
+            Get["/receipt/{id}"] = p => 
+            {
+                var res = Repository.ListOfReceipts.FirstOrDefault(r => r.Id == p.id);
+                return CreateResponse(res);
+            };
+
             Post["/receipts"] = p =>
             {
                 var receipt = this.Bind<Receipt>();
-                Repository.AddReceipt(receipt);
+                var result = Repository.AddReceipt(receipt);
 
-                return new Response() { StatusCode = HttpStatusCode.Created };
+                return CreateResponse(result);
             };
 
+            Delete["/receipt/{id}"] = p =>
+            {
+                var res = Repository.DeleteReceipt(p.id);
+                return CreateResponse(res);
+            };
+
+
+            // Ingredient Routes
             Get["/dummy/ingredients"] = p =>
             {
                 Repository.AddDummyIngredients();
-                var result = Repository.GetAllIngredients();
-                return new JsonResponse(result, new DefaultJsonSerializer());
+
+                return CreateResponse(Repository.GetAllIngredients());
             };
-            Get["/ingredients"] = p => new JsonResponse(Repository.ListOfIngredients, new DefaultJsonSerializer());
-            Get["/ingredients/{id}"] = p => Response.AsJson(Repository.ListOfIngredients.FirstOrDefault(i => i.Id == p.id));
+
+            Get["/ingredients"] = p => CreateResponse(Repository.ListOfIngredients);
+
+            Get["/ingredient/{id}"] = p =>
+            {
+                var res = Repository.ListOfIngredients.FirstOrDefault(i => i.Id == p.id);
+                return CreateResponse(res);
+            };
+
             Post["/ingredients"] = p =>
             {
                 var ingredient = this.Bind<Ingredient>();
-                var name = Request.Form.Name;
-                var unit = Request.Form.Unit;
-                if (unit != Measure.Kilogram || unit != Measure.Litar)
-                    unit = Measure.Kilogram;
-                var id = Repository.AddIngredient(name, unit);
+                var res = Repository.AddIngredient(ingredient);
 
-                return new Response() { StatusCode = HttpStatusCode.Accepted };
+                return CreateResponse(res);
+            };
+
+            Delete["/ingredient"] = p =>
+            {
+                var res = Repository.DeleteIngredient(p.id);
+                return CreateResponse(res);
             };
         }
     }

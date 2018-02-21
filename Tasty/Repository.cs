@@ -18,6 +18,7 @@ namespace Tasty
 
         public static List<Receipt> GetAllReceipts() => ListOfReceipts;
         public static List<Ingredient> GetAllIngredients() => ListOfIngredients;
+        static bool ExistsInIngredientsList(string name) => ListOfIngredients.Any(p => p.Name == name);
 
         public static void AddDummyReceipts()
         {
@@ -27,7 +28,7 @@ namespace Tasty
             }
         }
 
-        public static int AddReceipt(Receipt receipt)
+        public static Receipt AddReceipt(Receipt receipt)
         {
             var rec = new Receipt(Helpers.GenerateId(ListOfReceipts), receipt.Name, receipt.Description);
             receipt.Ingredients.ForEach(i => {
@@ -36,12 +37,14 @@ namespace Tasty
                     AddIngredient(i.Name, i.UnitMeasure);
             });
             ListOfReceipts.Add(rec);
-            return 1;
+            return rec;
         }
 
-        static bool ExistsInIngredientsList(string name)
+        public static Receipt DeleteReceipt(int id)
         {
-            return ListOfIngredients.Any(p => p.Name == name);
+            var receiptToDelete = ListOfReceipts.Find(p => p.Id == id);
+            ListOfReceipts.Remove(receiptToDelete);
+            return receiptToDelete;
         }
 
         public static void AddDummyIngredients()
@@ -55,11 +58,25 @@ namespace Tasty
             }
         }
 
-        public static int AddIngredient(string name, Measure unit)
+        public static Ingredient AddIngredient(Ingredient ing)
+        {
+            var ingredient = new Ingredient(Helpers.GenerateId(ListOfIngredients), ing.Name, ing.UnitMeasure);
+            ListOfIngredients.Add(ingredient);
+            return ingredient;
+        }
+
+        public static Ingredient AddIngredient(string name, Measure unit)
         {
             var ingredient = new Ingredient(Helpers.GenerateId(ListOfIngredients), name, unit);
             ListOfIngredients.Add(ingredient);
-            return 1;
+            return ingredient;
+        }
+
+        public static Ingredient DeleteIngredient(int id)
+        {
+            var ingredientToDelete = ListOfIngredients.Find(p => p.Id == id);
+            ListOfIngredients.Remove(ingredientToDelete);
+            return ingredientToDelete;    
         }
     }
 }
