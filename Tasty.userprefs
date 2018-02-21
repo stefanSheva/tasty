@@ -1,0 +1,20 @@
+﻿<Properties StartupConfiguration="{B20A6B8F-AA02-4579-A015-251608DCC914}|">
+  <MonoDevelop.Ide.ItemProperties.Tasty PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Tasty/Models/Ingredient.cs">
+    <Files>
+      <File FileName="Tasty/HomeModule.cs" Line="22" Column="52" />
+      <File FileName="Tasty/Models/Receipt.cs" Line="26" Column="10" />
+      <File FileName="Tasty/Models/Ingredient.cs" Line="7" Column="2" />
+      <File FileName="Tasty/Repository.cs" Line="17" Column="27" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore>
+      <Breakpoint file="/Users/stefanpopovski/projects/Tasty/Tasty/HomeModule.cs" relfile="Tasty/HomeModule.cs" line="32" column="1" />
+      <Breakpoint file="/Users/stefanpopovski/projects/Tasty/Tasty/HomeModule.cs" relfile="Tasty/HomeModule.cs" line="24" column="1" />
+    </BreakpointStore>
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MultiItemStartupConfigurations />
+</Properties>
