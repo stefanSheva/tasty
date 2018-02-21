@@ -25,7 +25,7 @@ namespace Tasty.Models
             Ingredients = new List<Ingredient>();
         }
 
-        public void AddIngredient(Ingredient ing){
+        public void AddIngredientToReceipt(Ingredient ing){
             Ingredients.Add(new Ingredient(Helpers.GenerateId(Ingredients), ing.Name, ing.UnitMeasure));
         }
     }
